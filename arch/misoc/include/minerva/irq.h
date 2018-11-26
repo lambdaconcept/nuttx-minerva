@@ -100,7 +100,7 @@
 
 #define REG_CSR_MSTATUS_NDX     32
 #define REG_CSR_MEPC_NDX        33
-#define REG_CSR_MBADDADDR_NDX   34
+#define REG_CSR_MBADADDR_NDX   34
 #define REG_CSR_MCAUSE_NDX      35
 
 #define REG_INT_CTX_NDX             36
@@ -149,7 +149,7 @@
 #  define REG_CSR_MSTATUS   (4*REG_CSR_MSTATUS_NDX)
 #  define REG_CSR_MEPC      (4*REG_CSR_MEPC_NDX)
 #  define REG_CSR_MBADADDR  (4*REG_CSR_MBADADDR_NDX)
-#  define REG_CSR_MCAUSE    (4*REG_CSR_MCAUSE)
+#  define REG_CSR_MCAUSE    (4*REG_CSR_MCAUSE_NDX)
 #  define REG_INT_CTX       (4*REG_INT_CTX_NDX)
 #else
 #  define REG_X0            REG_X0_NDX
@@ -187,7 +187,7 @@
 #  define REG_CSR_MSTATUS   REG_CSR_MSTATUS_NDX
 #  define REG_CSR_MEPC      REG_CSR_MEPC_NDX
 #  define REG_CSR_MBADADDR  REG_CSR_MBADADDR_NDX
-#  define REG_CSR_MCAUSE    REG_CSR_MCAUSE
+#  define REG_CSR_MCAUSE    REG_CSR_MCAUSE_NDX
 #  define REG_INT_CTX       REG_INT_CTX_NDX
 #endif
 
