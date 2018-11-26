@@ -155,7 +155,7 @@ void up_schedule_sigaction(struct tcb_s *tcb, sig_deliver_t sigdeliver)
                */
 
               g_current_regs[REG_CSR_MEPC]     = (uint32_t)minerva_sigdeliver;
-              g_current_regs[REG_INT_CTX] = 0;
+              g_current_regs[REG_CSR_MSTATUS] &= ~CSR_MSTATUS_MIE;
 
 
               /* And make sure that the saved context in the TCB
@@ -185,14 +185,15 @@ void up_schedule_sigaction(struct tcb_s *tcb, sig_deliver_t sigdeliver)
 
           tcb->xcp.sigdeliver       = sigdeliver;
           tcb->xcp.saved_epc        = tcb->xcp.regs[REG_CSR_MEPC];
-          tcb->xcp.saved_int_ctx    = tcb->xcp.regs[REG_INT_CTX];
+          tcb->xcp.saved_int_ctx    = tcb->xcp.regs[REG_CSR_MSTATUS];
 
           /* Then set up to vector to the trampoline with interrupts
            * disabled
            */
 
           tcb->xcp.regs[REG_CSR_MEPC]      = (uint32_t)minerva_sigdeliver;
-          tcb->xcp.regs[REG_INT_CTX]  = 0;
+	  g_current_regs[REG_CSR_MSTATUS] &= ~CSR_MSTATUS_MIE;
+
 
           sinfo("PC/STATUS Saved: %08x/%08x New: %08x/%08x\n",
                 tcb->xcp.saved_epc, tcb->xcp.saved_status,

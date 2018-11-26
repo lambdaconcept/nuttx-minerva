@@ -87,8 +87,8 @@ sys_call5:	/* a0 holds the syscall number, arguments in a1, a2, a3, a4 and a5 */
 
 	/* Issue the ECALL opcode to perform a SW interrupt to the OS */
 
-   scall
-
+	ecall
+	
 	/* The actual interrupt may not a occur for a few more cycles.  Let's
 	 * put a few nop's here in hope that the SW interrupt occurs during
 	 * the sequence of nops.

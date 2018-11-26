@@ -31,8 +31,8 @@ _reset_handler:
 	j 1b
 2:
 	// enable external interrupts
-	//li t0, MIE_MEIE
-	//csrs mie, t0
+	li t0, MIE_MEIE
+	csrs mie, t0
 
 	call os_start
 1:	j 1b
@@ -85,14 +85,12 @@ save_ctx:
 	csrr t1, mepc
 	csrr t2, mbadaddr
 	csrr t3, mcause
-	csrr t4, CSR_IRQ_MASK
-
+	
 	sw t0, REG_CSR_MSTATUS(sp)
 	sw t1, REG_CSR_MEPC(sp)
 	sw t2, REG_CSR_MBADADDR(sp)
 	sw t3, REG_CSR_MCAUSE(sp)
-	sw t4, REG_INT_CTX(sp)
-
+	
 	addi t0, sp, XCPTCONTEXT_SIZE
 	sw t0, REG_X2(sp)
 
@@ -129,14 +127,13 @@ restore_ctx_and_mret:
 	lw t4,  REG_X29(a0)
 	lw t5,  REG_X30(a0)
 	lw t6,  REG_X31(a0)
-
-	lw t0, REG_INT_CTX(a0)
-	csrw CSR_IRQ_MASK, t0
+	
 	lw t0, REG_CSR_MEPC(a0)
 	csrw mepc, t0
+
 	lw t0, REG_CSR_MSTATUS(a0)
 	csrw mstatus, t0
-
+	
 	lw t0,   REG_X5(a0)
 	lw a0,  REG_X10(a0)
 

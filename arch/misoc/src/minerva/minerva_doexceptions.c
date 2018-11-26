@@ -74,9 +74,7 @@ uint32_t *minerva_doexception(uint32_t *regs)
   } else {
     ret = minerva_doirq(MINERVA_IRQ_SWINT, regs);
   }
-    
-
-
+  
   board_autoled_off(LED_INIRQ);
   return ret;
 }

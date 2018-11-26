@@ -103,9 +103,9 @@
 #define REG_CSR_MBADADDR_NDX   34
 #define REG_CSR_MCAUSE_NDX      35
 
-#define REG_INT_CTX_NDX             36
 
-#define XCPTCONTEXT_REGS    37
+
+#define XCPTCONTEXT_REGS    36
 #define XCPTCONTEXT_SIZE    (4 * XCPTCONTEXT_REGS)
 
 /* In assembly language, values have to be referenced as byte address
@@ -150,7 +150,6 @@
 #  define REG_CSR_MEPC      (4*REG_CSR_MEPC_NDX)
 #  define REG_CSR_MBADADDR  (4*REG_CSR_MBADADDR_NDX)
 #  define REG_CSR_MCAUSE    (4*REG_CSR_MCAUSE_NDX)
-#  define REG_INT_CTX       (4*REG_INT_CTX_NDX)
 #else
 #  define REG_X0            REG_X0_NDX
 #  define REG_X1            REG_X1_NDX
@@ -188,7 +187,6 @@
 #  define REG_CSR_MEPC      REG_CSR_MEPC_NDX
 #  define REG_CSR_MBADADDR  REG_CSR_MBADADDR_NDX
 #  define REG_CSR_MCAUSE    REG_CSR_MCAUSE_NDX
-#  define REG_INT_CTX       REG_INT_CTX_NDX
 #endif
 
 /* Now define more user friendly alternative name that can be used either

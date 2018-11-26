@@ -48,6 +48,7 @@
 #include <nuttx/arch.h>
 #include <nuttx/board.h>
 #include <arch/board/board.h>
+#include <arch/minerva/csrdefs.h>
 
 #include "sched/sched.h"
 #include "minerva.h"
@@ -91,7 +92,7 @@ void minerva_sigdeliver(void)
 
   up_copystate(regs, rtcb->xcp.regs);
   regs[REG_CSR_MEPC]        = rtcb->xcp.saved_epc;
-  regs[REG_INT_CTX]    = rtcb->xcp.saved_int_ctx;
+  regs[REG_CSR_MSTATUS]     = rtcb->xcp.saved_int_ctx;
 
   /* Get a local copy of the sigdeliver function pointer. We do this so that
    * we can nullify the sigdeliver function pointer in the TCB and accept
@@ -118,7 +119,7 @@ void minerva_sigdeliver(void)
    * errno that is needed by the user logic (it is probably EINTR).
    */
 
-  sinfo("Resuming EPC: %08x INT_CTX: %08x\n", regs[REG_CSR_MEPC], regs[REG_INT_CTX]);
+  sinfo("Resuming EPC: %08x INT_CTX: %08x\n", regs[REG_CSR_MEPC], regs[REG_CSR_MSTATUS]);
 
   (void)up_irq_save();
   rtcb->pterrno = saved_errno;

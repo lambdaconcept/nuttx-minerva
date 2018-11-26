@@ -46,8 +46,10 @@
 
 #include <nuttx/arch.h>
 #include <arch/irq.h>
+#include <arch/minerva/csrdefs.h>
 
 #include "minerva.h"
+#include "chip.h"
 
 /****************************************************************************
  * Pre-processor Definitions
@@ -81,6 +83,7 @@
 
 void up_initial_state(struct tcb_s *tcb)
 {
+  uint32_t regval;
   struct xcptcontext *xcp = &tcb->xcp;
 
   /* Initialize the initial exception register context structure */
@@ -99,7 +102,10 @@ void up_initial_state(struct tcb_s *tcb)
 
   xcp->regs[REG_CSR_MEPC]     = (uint32_t)tcb->start;
 
+
   
+  reval = csrs(CSR_MSTATUS_ADDR, CSR_MSTATUS_MIE);
+  xcp->regs[]
   /* If this task is running PIC, then set the PIC base register to the
    * address of the allocated D-Space region.
    */
