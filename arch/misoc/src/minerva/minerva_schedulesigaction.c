@@ -51,6 +51,7 @@
 #include <nuttx/irq.h>
 #include <nuttx/arch.h>
 #include <arch/minerva/irq.h>
+#include <arch/minerva/csrdefs.h>
 
 #include "sched/sched.h"
 #include "minerva.h"

@@ -41,6 +41,7 @@
  ****************************************************************************/
 
 #include "minerva.h"
+#include <arch/minerva/csrdefs.h>
 
 /****************************************************************************
  * Inline Functions
@@ -52,14 +53,12 @@ extern "C"
 #endif
 
 
-#define CSR_MSTATUS_MIE 0x8
-
 #define CSR_IRQ_MASK 0x330
 #define CSR_IRQ_PENDING 0x360
 
 #define CSR_DCACHE_INFO 0xCC0
 
-  
+
 #define csrr(reg) ({ unsigned long __tmp; \
   asm volatile ("csrr %0, " #reg : "=r"(__tmp)); \
   __tmp; })
@@ -86,7 +85,7 @@ extern "C"
 }
 #endif
 
-  
+
 static inline unsigned int irq_getie(void)
 {
   return (csrr(mstatus) & CSR_MSTATUS_MIE) != 0;

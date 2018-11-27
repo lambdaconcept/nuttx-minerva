@@ -47,6 +47,7 @@
 #include <nuttx/arch.h>
 #include <arch/irq.h>
 #include <arch/minerva/csrdefs.h>
+#include <arch/minerva/irq.h>
 
 #include "minerva.h"
 #include "chip.h"
@@ -102,10 +103,9 @@ void up_initial_state(struct tcb_s *tcb)
 
   xcp->regs[REG_CSR_MEPC]     = (uint32_t)tcb->start;
 
+  regval = csrr(mstatus);
+  xcp->regs[REG_CSR_MSTATUS] = regval | CSR_MSTATUS_MIE;
 
-  
-  reval = csrs(CSR_MSTATUS_ADDR, CSR_MSTATUS_MIE);
-  xcp->regs[]
   /* If this task is running PIC, then set the PIC base register to the
    * address of the allocated D-Space region.
    */
