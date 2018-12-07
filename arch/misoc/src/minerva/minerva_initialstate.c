@@ -103,8 +103,7 @@ void up_initial_state(struct tcb_s *tcb)
 
   xcp->regs[REG_CSR_MEPC]     = (uint32_t)tcb->start;
 
-  regval = csrr(mstatus);
-  xcp->regs[REG_CSR_MSTATUS] = regval | CSR_MSTATUS_MIE;
+  xcp->regs[REG_CSR_MSTATUS] = CSR_MSTATUS_MPIE;
 
   /* If this task is running PIC, then set the PIC base register to the
    * address of the allocated D-Space region.

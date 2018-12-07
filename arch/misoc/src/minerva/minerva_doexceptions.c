@@ -72,7 +72,17 @@ uint32_t *minerva_doexception(uint32_t *regs)
     pending = irq_pending();
     ret = minerva_decodeirq(pending, regs);
   } else {
-    ret = minerva_doirq(MINERVA_IRQ_SWINT, regs);
+    mcause = mcause & 0x7fffffff;
+    if(mcause == 11)
+      {
+	regs[REG_CSR_MEPC_NDX] += 4;
+	ret = minerva_doirq(MINERVA_IRQ_SWINT, regs);
+      }
+    else 
+      {
+	while(1);
+      }
+
   }
   
   board_autoled_off(LED_INIRQ);

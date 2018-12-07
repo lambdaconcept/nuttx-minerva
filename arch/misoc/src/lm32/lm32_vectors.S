@@ -162,7 +162,7 @@ _do_reset:
 	/* Setup stack and global pointer */
 
 	mvhi	sp, hi(LM32_STACK_TOP)
-	ori		sp, sp, lo(LM32_STACK_TOP)
+	ori	sp, sp, lo(LM32_STACK_TOP)
 
 	/* Clear BSS */
 

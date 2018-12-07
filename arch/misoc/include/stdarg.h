@@ -1,9 +1,8 @@
 /****************************************************************************
- * arch/misoc/src/lm32/lm32_initialize.c
+ * arch/risc-v/include/stdarg.h
  *
- *   Copyright (C) 2016-2017 Gregory Nutt. All rights reserved.
+ *   Copyright (C) 2012 Gregory Nutt. All rights reserved.
  *   Author: Gregory Nutt <gnutt@nuttx.org>
- *           Ramtin Amin <keytwo@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,58 +33,27 @@
  *
  ****************************************************************************/
 
+#ifndef __ARCH_RISCV_INCLUDE_STDARG_H
+#define __ARCH_RISCV_INCLUDE_STDARG_H
+
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
-#include <nuttx/config.h>
+/****************************************************************************
+ * Pre-processor Definitions
+ ****************************************************************************/
+/* This should work with any modern gcc (newer than 3.4 or so) */
 
-#include <debug.h>
-
-#include <nuttx/arch.h>
-#include <nuttx/sched_note.h>
-#include <nuttx/mm/iob.h>
-#include <nuttx/drivers/drivers.h>
-#include <nuttx/fs/loop.h>
-#include <nuttx/net/loopback.h>
-#include <nuttx/net/tun.h>
-#include <nuttx/net/telnet.h>
-#include <nuttx/syslog/syslog.h>
-#include <nuttx/syslog/syslog_console.h>
-#include <nuttx/serial/pty.h>
-#include <nuttx/crypto/crypto.h>
-#include <nuttx/power/pm.h>
-
-#include <arch/board/board.h>
-
-#include "misoc.h"
-#include "lm32.h"
+#define va_start(v,l)   __builtin_va_start(v,l)
+#define va_end(v)       __builtin_va_end(v)
+#define va_arg(v,l)     __builtin_va_arg(v,l)
+#define va_copy(d,s)    __builtin_va_copy(d,s)
 
 /****************************************************************************
- * Public Functionis
+ * Public Types
  ****************************************************************************/
 
-void up_initialize(void)
-{
-  /* Initialize the System Timer */
+typedef __builtin_va_list va_list;
 
-  lm32_irq_initialize();
-
-  /* Initialize the serial driver */
-
-  misoc_serial_initialize();
-
-  /* Initialize the system timer */
-
-  misoc_timer_initialize();
-
-#ifdef CONFIG_MM_IOB
-  /* Initialize IO buffering */
-
-  iob_initialize();
-#endif
-
-  /* Initialize the network cores */
-
-  //  misoc_net_initialize(0);
-}
+#endif /* __ARCH_RISCV_INCLUDE_STDARG_H */

@@ -16,38 +16,8 @@
 	.global		g_idle_topstack
 	.global		__start
 
-__start:
-_reset_handler:
-	la sp, MINERVA_STACK_TOP
-	la t0, trap_entry
-	csrw mtvec, t0
 
-	// initialize .bss
-	la t0, _sbss
-	la t1, _ebss
-1:	beq t0, t1, 2f
-	sw zero, 0(t0)
-	addi t0, t0, 4
-	j 1b
-2:
-	// enable external interrupts
-	li t0, MIE_MEIE
-	csrs mie, t0
-
-	call os_start
-1:	j 1b
-
-trap_entry:
-	csrw mscratch, ra
-	call save_ctx
-	mv a0, sp
-	call minerva_doexception
-	j restore_ctx_and_mret
-
-
-save_ctx:
-	csrrw ra, mscratch, ra
-
+.macro SAVE_REGS
 	addi sp, sp, -XCPTCONTEXT_SIZE
 	sw x0, REG_X0(sp)
 	sw x1, REG_X1(sp)
@@ -80,24 +50,21 @@ save_ctx:
 	sw x29, REG_X29(sp)
 	sw x30, REG_X30(sp)
 	sw x31, REG_X31(sp)
-
 	csrr t0, mstatus
 	csrr t1, mepc
 	csrr t2, mbadaddr
 	csrr t3, mcause
-
 	sw t0, REG_CSR_MSTATUS(sp)
 	sw t1, REG_CSR_MEPC(sp)
 	sw t2, REG_CSR_MBADADDR(sp)
 	sw t3, REG_CSR_MCAUSE(sp)
-
 	addi t0, sp, XCPTCONTEXT_SIZE
 	sw t0, REG_X2(sp)
+ .endm
+	
+/* restore regs and `mret` */
 
-	csrrw ra, mscratch, ra
-	ret
-
-restore_ctx_and_mret:
+ .macro RESTORE_REGS
 	lw x1, REG_X1(a0)
 	lw x2, REG_X2(a0)
 	lw x3, REG_X3(a0)
@@ -136,10 +103,43 @@ restore_ctx_and_mret:
 
 	lw x5, REG_X5(a0)
 	lw x10, REG_X10(a0)
+ .endm
 
+	
+__start:
+_reset_handler:
+	la sp, MINERVA_STACK_TOP
+	la t0, trap_entry
+	csrw mtvec, t0
+
+	// initialize .bss
+	la t0, _sbss
+	la t1, _ebss
+1:	beq t0, t1, 2f
+	sw zero, 0(t0)
+	addi t0, t0, 4
+	j 1b
+2:
+	// enable external interrupts
+	//li t0, MIE_MEIE
+	//csrs mie, t0
+
+	call os_start
+1:	j 1b
+
+trap_entry:
+	SAVE_REGS
+	mv a0, sp
+	call minerva_doexception
+	RESTORE_REGS
 	mret
+	nop
+	nop
+	nop
+	nop
+	
 
-
+	
 g_idle_topstack:
 	.long	MINERVA_STACK_TOP
 	.size	g_idle_topstack, .-g_idle_topstack

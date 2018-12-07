@@ -74,7 +74,7 @@ uint32_t *lm32_doirq(int irq, uint32_t *regs)
   /* Disable further occurrences of this interrupt (until the interrupt sources
    * have been clear by the driver).
    */
-
+  
   up_disable_irq(irq);
 
   /* Deliver the IRQ */
