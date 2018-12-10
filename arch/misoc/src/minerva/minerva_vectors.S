@@ -108,7 +108,8 @@
 	
 __start:
 _reset_handler:
-	la sp, MINERVA_STACK_TOP
+	//la sp, MINERVA_STACK_TOP
+	la sp, _fstack
 	la t0, trap_entry
 	csrw mtvec, t0
 
@@ -139,6 +140,14 @@ trap_entry:
 	nop
 	
 
+	/* This global variable is unsigned long g_idle_topstack and is
+	* exported from here only because of its coupling to other
+	* uses of _ebss in this file
+	*/
+
+	.data
+	.align  4
+	.type   g_idle_topstack, object
 	
 g_idle_topstack:
 	.long	MINERVA_STACK_TOP
