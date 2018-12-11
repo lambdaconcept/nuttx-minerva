@@ -130,8 +130,8 @@ void misoc_timer_initialize(void)
    * CLOCKS_PER_SEC.
    */
 
-  timer0_reload_write(SYSTICK_RELOAD*100);
-  timer0_load_write(SYSTICK_RELOAD*100);
+  timer0_reload_write(SYSTICK_RELOAD*20);
+  timer0_load_write(SYSTICK_RELOAD*20);
 
   /* Enable timer */
 
