@@ -69,6 +69,8 @@ SECTIONS
 		_sdata = ABSOLUTE(.);
 		*(.data .data.*)
 		*(.gnu.linkonce.d.*)
+		*(.sdata .sdata.*)
+		*(.gnu.linkonce.s.*)
 		CONSTRUCTORS
 		_edata = ABSOLUTE(.);
 	} > main_ram
@@ -77,6 +79,8 @@ SECTIONS
 		_sbss = ABSOLUTE(.);
 		*(.bss .bss.*)
 		*(.gnu.linkonce.b.*)
+		*(.sbss .sbss.*)
+		*(.gnu.linkonce.sb.*)
 		*(COMMON)
 		_ebss = ABSOLUTE(.);
 	} > main_ram

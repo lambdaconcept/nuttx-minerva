@@ -87,5 +87,7 @@ void up_initialize(void)
 
   /* Initialize the network cores */
 
-  //misoc_net_initialize(0);
+#ifdef CONFIG_MISOC_ETHERNET
+  misoc_net_initialize(0);
+#endif
 }
